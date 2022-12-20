@@ -64,4 +64,7 @@ for char in input {
 arrayString
 print(arrayString)
 
+//var filePath = NSBundle.mainBundle.URLForResource("input", withExtension: "txt")
 
+var input1 = Bundle.main.path(forResource: "input", ofType: "txt")
+var inputUrl = Bundle.main.url(forResource: "input", withExtension: "txt")
