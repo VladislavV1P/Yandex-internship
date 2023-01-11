@@ -2,7 +2,7 @@ import Foundation
 
 /*
  A. Баг в библиотеке
-
+ 
  Ограничение времени    2 секунды
  Ограничение памяти    256Mb
  Ввод    стандартный ввод или input.txt
@@ -12,13 +12,13 @@ import Foundation
  - извлечёт индекс из строки;
  - с помощью индекса расположит строку в нужной позиции.
  Формат ввода
-
+ 
  Список строк, разделённых символом переноса строки.
  Формат вывода
-
+ 
  Список строк, разделённых символом переноса строки.
  Пример
-
+ 
  Ввод Скопировать ввод    Вывод Скопировать вывод
  str3
  1smth
@@ -27,44 +27,68 @@ import Foundation
  blabla
  str
  Примечания
-
+ 
  - Индексы всегда начинаются с 1;
  - последовательность индексов неразрывна, то есть не может быть последовательности [1,2,5];
  - в каждой строке существует лишь одна последовательность чисел, то есть не может быть "st2ri3ng";
  - на вход подаётся не более 10000 строк длиной не более чем 10000 символов.
  */
+let input = readLine()
 
-let input = """
+let inputString = """
 one1 tr
 th3ree rt
 two2 tr
 fo4ur rt
 fiv5e rty
-
 """
-var arrayString = Array(repeating: "2", count: 10)
-var stringInArray = ""
-var indexArray = ""
+var stringBase = ""
+stringBase = input ?? inputString
 
-for char in input {
-    if char == "\n" {
-        var index = Int(indexArray) ?? 1
-           arrayString[index - 1] = stringInArray
-        indexArray = ""
-        stringInArray = ""
-    } else {
-        if Int(String(char)) != nil {
-            indexArray += String(char)
-        } else {
-            stringInArray += String(char)
+func countArray(string: String) -> Int {
+    var totalCount = 0
+    for item in string {
+        if item == "\n" {
+            totalCount += 1
         }
     }
+    return totalCount + 1
 }
 
-arrayString
-print(arrayString)
+let countArrayString = countArray(string: stringBase)
+var arrayString = Array(repeating: "", count: countArrayString)
 
-//var filePath = NSBundle.mainBundle.URLForResource("input", withExtension: "txt")
+func sortedOrderOfString(string: String) -> String {
+    var stringInArray = ""
+    var indexArray = ""
+    for char in string {
+        if char == "\n" {
+            let index = Int(indexArray) ?? 1
+            arrayString[index - 1] = stringInArray
+            indexArray = ""
+            stringInArray = ""
+        } else {
+            if Int(String(char)) != nil {
+                indexArray += String(char)
+            } else {
+                stringInArray += String(char)
+            }
+        }
+    }
+    
+    let index = Int(indexArray) ?? 1
+    arrayString[index - 1] = stringInArray
+    
+    stringBase = ""
+    
+    for item in arrayString {
+        stringBase += item + "\n"
+    }
+    
+ return stringBase
+}
 
-var input1 = Bundle.main.path(forResource: "input", ofType: "txt")
-var inputUrl = Bundle.main.url(forResource: "input", withExtension: "txt")
+stringBase = sortedOrderOfString(string: stringBase)
+
+print(stringBase)
+
