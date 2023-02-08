@@ -2,20 +2,26 @@ import Foundation
 
 var endOfDataTransmission = false
 var stringData = [Int:String]()
+let digit: Set<Character> = ["0","1","2","3","4","5","6","7","8","9"]
 
 func findNumber(string: String) {
     var stringInArray = ""
     var index = ""
+    var total = string.count
+    var stopFind = false
     for char in string {
-        switch char {
-        case "0","1","2","3","4","5","6","7","8","9":
-            index += String(char)
-        default:
+        if digit.contains(char) {
+             index += String(char)
+            stopFind = true
+        } else if stopFind{
+            break
+        } else {
             stringInArray += String(char)
         }
+        total -= 1
     }
-    if let index = Int(index) {
-        stringData[index] = stringInArray
+        if let index = Int(index) {
+            stringData[index] = stringInArray + String(string.suffix(total))
     }
 }
 
@@ -27,15 +33,6 @@ while !endOfDataTransmission {
     }
 }
 
-//test data
-let inputTest1 = "ccc3"
-let inputTest2 = "2bbb"
-let inputTest3 = "a1aa"
-findNumber(string: inputTest1)
-findNumber(string: inputTest2)
-findNumber(string: inputTest3)
-//end test
-
 if !stringData.isEmpty {
     for index in 1...stringData.count {
         if let output = stringData[index] {
@@ -45,5 +42,3 @@ if !stringData.isEmpty {
 } else {
     print()
 }
-
-
